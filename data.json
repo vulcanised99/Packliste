@@ -1,0 +1,896 @@
+{
+ "categories": [
+  {
+   "id": "kleider",
+   "name": "Kleider",
+   "module": null,
+   "items": [
+    {
+     "id": "kleider-unterhosen",
+     "name": "Unterhosen",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "kleider-socken",
+     "name": "Socken",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "kleider-sport-bh",
+     "name": "(Sport)BH",
+     "tanja": true,
+     "g": 0
+    },
+    {
+     "id": "kleider-t-shirts",
+     "name": "T-Shirts",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "kleider-hemden-blusen",
+     "name": "Hemden/Blusen",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "kleider-pullover",
+     "name": "Pullover",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "kleider-kurze-hosen",
+     "name": "Kurze Hosen",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "kleider-lange-hosen",
+     "name": "Lange Hosen",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "kleider-trainerhosen",
+     "name": "Trainerhosen",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "kleider-pyjama",
+     "name": "Pyjama",
+     "tanja": true,
+     "g": 3
+    },
+    {
+     "id": "kleider-badehosen-bikini",
+     "name": "Badehosen/Bikini",
+     "tanja": false,
+     "g": 4
+    },
+    {
+     "id": "kleider-badtuch",
+     "name": "Badtuch",
+     "tanja": false,
+     "g": 4
+    },
+    {
+     "id": "kleider-anzug-jacket",
+     "name": "Anzug / Jacket",
+     "tanja": false,
+     "g": 5
+    },
+    {
+     "id": "kleider-kleid",
+     "name": "Kleid",
+     "tanja": true,
+     "g": 5
+    },
+    {
+     "id": "kleider-jacke",
+     "name": "Jacke",
+     "tanja": false,
+     "g": 6
+    },
+    {
+     "id": "kleider-regenjacke",
+     "name": "Regenjacke",
+     "tanja": false,
+     "g": 6
+    },
+    {
+     "id": "kleider-hut",
+     "name": "Hut",
+     "tanja": false,
+     "g": 7
+    },
+    {
+     "id": "kleider-schal",
+     "name": "Schal",
+     "tanja": false,
+     "g": 7
+    },
+    {
+     "id": "kleider-kappe",
+     "name": "Kappe",
+     "tanja": false,
+     "g": 7
+    },
+    {
+     "id": "kleider-handschuhe",
+     "name": "Handschuhe",
+     "tanja": false,
+     "g": 7
+    },
+    {
+     "id": "kleider-handtasche",
+     "name": "Handtasche",
+     "tanja": true,
+     "g": 7
+    }
+   ]
+  },
+  {
+   "id": "schuhe",
+   "name": "Schuhe",
+   "module": null,
+   "items": [
+    {
+     "id": "schuhe-halbschuhe",
+     "name": "Halbschuhe",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "schuhe-flip-flops",
+     "name": "Flip-Flops",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "schuhe-bergschuhe",
+     "name": "Bergschuhe",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "schuhe-turnschuhe",
+     "name": "Turnschuhe",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "schuhe-highheels",
+     "name": "Highheels",
+     "tanja": true,
+     "g": 0
+    },
+    {
+     "id": "schuhe-sandalen",
+     "name": "Sandalen",
+     "tanja": true,
+     "g": 0
+    }
+   ]
+  },
+  {
+   "id": "necessaire",
+   "name": "Necessaire",
+   "module": null,
+   "items": [
+    {
+     "id": "necessaire-dry-shampoo",
+     "name": "(Dry)Shampoo",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "necessaire-zahnbuerste",
+     "name": "Zahnbürste",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "necessaire-zahnpaste",
+     "name": "Zahnpaste",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "necessaire-deo",
+     "name": "Deo",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "necessaire-haargel",
+     "name": "Haargel",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "necessaire-rasierzeugs",
+     "name": "Rasierzeugs",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "necessaire-ersatzbrille",
+     "name": "Ersatzbrille",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "necessaire-taschentuecher",
+     "name": "Taschentücher",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "necessaire-kondome",
+     "name": "Kondome",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "necessaire-waschtuch",
+     "name": "Waschtuch",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "necessaire-sonnenbrille",
+     "name": "Sonnenbrille",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "necessaire-sonnencreme",
+     "name": "Sonnencreme",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "necessaire-apr-s-soleil",
+     "name": "Après-Soleil",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "necessaire-anti-brumm",
+     "name": "Anti-Brumm",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "necessaire-parfum",
+     "name": "Parfum",
+     "tanja": true,
+     "g": 2
+    },
+    {
+     "id": "necessaire-abdeckstift",
+     "name": "Abdeckstift",
+     "tanja": true,
+     "g": 2
+    },
+    {
+     "id": "necessaire-hautcreme",
+     "name": "Hautcreme",
+     "tanja": true,
+     "g": 2
+    },
+    {
+     "id": "necessaire-make-up",
+     "name": "Make-up",
+     "tanja": true,
+     "g": 2
+    },
+    {
+     "id": "necessaire-kamm-buerste",
+     "name": "Kamm/Bürste",
+     "tanja": true,
+     "g": 2
+    },
+    {
+     "id": "necessaire-abschminke",
+     "name": "Abschminke",
+     "tanja": true,
+     "g": 2
+    },
+    {
+     "id": "necessaire-lippenstift",
+     "name": "Lippenstift",
+     "tanja": true,
+     "g": 2
+    },
+    {
+     "id": "necessaire-linsenfluessigkeit",
+     "name": "Linsenflüssigkeit",
+     "tanja": true,
+     "g": 2
+    },
+    {
+     "id": "necessaire-ersatzlinsen",
+     "name": "Ersatzlinsen",
+     "tanja": true,
+     "g": 2
+    },
+    {
+     "id": "necessaire-ob-binden",
+     "name": "OB/Binden",
+     "tanja": true,
+     "g": 2
+    }
+   ]
+  },
+  {
+   "id": "dokumente",
+   "name": "Dokumente",
+   "module": null,
+   "items": [
+    {
+     "id": "dokumente-id-pass",
+     "name": "ID / Pass",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "dokumente-flugtickets",
+     "name": "Flugtickets",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "dokumente-hotelvoucher",
+     "name": "Hotelvoucher",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "dokumente-mietwagenvoucher",
+     "name": "Mietwagenvoucher",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "dokumente-bargeld",
+     "name": "Bargeld",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "dokumente-bankkarte",
+     "name": "Bankkarte",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "dokumente-kreditkarte",
+     "name": "Kreditkarte",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "dokumente-fuehrerschein",
+     "name": "Führerschein",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "dokumente-swisspass",
+     "name": "SwissPass",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "dokumente-impfausweis",
+     "name": "Impfausweis",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "dokumente-tauchausweis",
+     "name": "Tauchausweis",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "dokumente-schluessel",
+     "name": "Schlüssel",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "dokumente-reisefuehrer",
+     "name": "Reiseführer",
+     "tanja": false,
+     "g": 3
+    }
+   ]
+  },
+  {
+   "id": "elektronik",
+   "name": "Elektronik",
+   "module": null,
+   "items": [
+    {
+     "id": "elektronik-handy",
+     "name": "Handy",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "elektronik-handyakku",
+     "name": "Handyakku",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "elektronik-kopfhoerer",
+     "name": "Kopfhörer",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "elektronik-musikbox",
+     "name": "Musikbox",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "elektronik-reisestecker",
+     "name": "Reisestecker",
+     "tanja": false,
+     "g": 1
+    }
+   ]
+  },
+  {
+   "id": "verschiedenes",
+   "name": "Verschiedenes",
+   "module": null,
+   "items": [
+    {
+     "id": "verschiedenes-rucksack",
+     "name": "Rucksack",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "verschiedenes-reiseapotheke",
+     "name": "Reiseapotheke",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "verschiedenes-buecher",
+     "name": "Bücher",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "verschiedenes-schreibzeug",
+     "name": "Schreibzeug",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "verschiedenes-regenschirm",
+     "name": "Regenschirm",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "verschiedenes-reisekissen",
+     "name": "Reisekissen",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "verschiedenes-yogamatten",
+     "name": "Yogamatten",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "verschiedenes-trinkflasche",
+     "name": "Trinkflasche",
+     "tanja": false,
+     "g": 4
+    },
+    {
+     "id": "verschiedenes-waeschesack",
+     "name": "Wäschesack",
+     "tanja": false,
+     "g": 5
+    }
+   ]
+  },
+  {
+   "id": "kinder",
+   "name": "Kinder",
+   "module": "kinder",
+   "items": [
+    {
+     "id": "kinder-kurzarmbodies",
+     "name": "Kurzarmbodies",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "kinder-langarmbodies",
+     "name": "Langarmbodies",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "kinder-jeans",
+     "name": "Jeans",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "kinder-trainerhosen",
+     "name": "Trainerhosen",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "kinder-socken",
+     "name": "Socken",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "kinder-spucktuecher",
+     "name": "Spucktücher",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "kinder-pullis-dick-duenn",
+     "name": "Pullis (dick/dünn)",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "kinder-outdoorhose",
+     "name": "Outdoorhose",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "kinder-regenkleider",
+     "name": "Regenkleider",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "kinder-sonnenhut",
+     "name": "Sonnenhut",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "kinder-sonnenbrille",
+     "name": "Sonnenbrille",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "kinder-kindersonnencreme",
+     "name": "Kindersonnencreme",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "kinder-kappe",
+     "name": "Kappe",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "kinder-schuhe-finken",
+     "name": "Schuhe / Finken",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "kinder-nuschi",
+     "name": "Nuschi",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "kinder-schlafsack",
+     "name": "Schlafsack",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "kinder-pyjama",
+     "name": "Pyjama",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "kinder-windeln",
+     "name": "Windeln",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "kinder-badewindeln",
+     "name": "Badewindeln",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "kinder-feuchttuecher",
+     "name": "Feuchttücher",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "kinder-wickeltuecher",
+     "name": "Wickeltücher",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "kinder-wickelunterlage",
+     "name": "Wickelunterlage",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "kinder-wasserschoppen",
+     "name": "Wasserschoppen",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "kinder-milchschoppen",
+     "name": "Milchschoppen",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "kinder-milchpulver",
+     "name": "Milchpulver",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "kinder-snackbox",
+     "name": "Snackbox",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "kinder-tupperware",
+     "name": "Tupperware",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "kinder-maispops",
+     "name": "Maispops",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "kinder-pluesch-musiktier",
+     "name": "Plüsch-/Musiktier",
+     "tanja": false,
+     "g": 4
+    },
+    {
+     "id": "kinder-spielzeug",
+     "name": "Spielzeug",
+     "tanja": false,
+     "g": 4
+    },
+    {
+     "id": "kinder-bueechli",
+     "name": "Büechli",
+     "tanja": false,
+     "g": 4
+    },
+    {
+     "id": "kinder-steckdosenschutz",
+     "name": "Steckdosenschutz",
+     "tanja": false,
+     "g": 4
+    },
+    {
+     "id": "kinder-pamir",
+     "name": "Pamir",
+     "tanja": false,
+     "g": 4
+    },
+    {
+     "id": "kinder-kindertrage",
+     "name": "Kindertrage",
+     "tanja": false,
+     "g": 4
+    }
+   ]
+  },
+  {
+   "id": "outdoor",
+   "name": "Outdoor / Wandern",
+   "module": "outdoor",
+   "items": [
+    {
+     "id": "outdoor-wanderstoecke",
+     "name": "Wanderstöcke",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "outdoor-sackmesser",
+     "name": "Sackmesser",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "outdoor-kindertragerucksack",
+     "name": "Kindertragerucksack",
+     "tanja": false,
+     "g": 0
+    }
+   ]
+  },
+  {
+   "id": "ferienwohnung",
+   "name": "Ferienwohnungen",
+   "module": "ferienwohnung",
+   "items": [
+    {
+     "id": "ferienwohnung-putzlappen",
+     "name": "Putzlappen",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "ferienwohnung-abtrocktuch",
+     "name": "Abtrocktuch",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "ferienwohnung-abwaschpads",
+     "name": "Abwaschpads",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "ferienwohnung-waschmittel",
+     "name": "Waschmittel",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "ferienwohnung-oel-essig",
+     "name": "Öl / Essig",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "ferienwohnung-gewuerze",
+     "name": "Gewürze",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "ferienwohnung-kuechenmesser",
+     "name": "Küchenmesser",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "ferienwohnung-tupperware",
+     "name": "Tupperware",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "ferienwohnung-klammern",
+     "name": "Klammern",
+     "tanja": false,
+     "g": 3
+    },
+    {
+     "id": "ferienwohnung-plastikbeutel",
+     "name": "Plastikbeutel",
+     "tanja": false,
+     "g": 3
+    }
+   ]
+  },
+  {
+   "id": "camping",
+   "name": "Camping",
+   "module": "camping",
+   "items": [
+    {
+     "id": "camping-zelt",
+     "name": "Zelt",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "camping-schlafsack",
+     "name": "Schlafsack",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "camping-schlafmatte",
+     "name": "Schlafmatte",
+     "tanja": false,
+     "g": 0
+    },
+    {
+     "id": "camping-kocher",
+     "name": "Kocher",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "camping-kochgas",
+     "name": "Kochgas",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "camping-kochbesteck",
+     "name": "Kochbesteck",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "camping-plastikteller-becher",
+     "name": "Plastikteller/Becher",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "camping-streichhoelzer",
+     "name": "Streichhölzer",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "camping-gewuerz",
+     "name": "Gewürz",
+     "tanja": false,
+     "g": 1
+    },
+    {
+     "id": "camping-taschenlampe",
+     "name": "Taschenlampe",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "camping-haengematte",
+     "name": "Hängematte",
+     "tanja": false,
+     "g": 2
+    },
+    {
+     "id": "camping-verlaengerungskabel",
+     "name": "Verlängerungskabel",
+     "tanja": false,
+     "g": 3
+    }
+   ]
+  }
+ ]
+}

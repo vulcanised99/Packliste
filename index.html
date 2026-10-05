@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e5a64">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Packliste">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>Packliste</title>
+<style>
+:root{--bg:#eef3f4;--card:#fff;--ink:#14232b;--mute:#5d7079;--line:#d6e0e3;--accent:#0e7c86;--accent-ink:#fff;--done:#2e9a5b;--head:#0e5a64;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d171b;--card:#162329;--ink:#e6eef0;--mute:#8da2ab;--line:#26363d;--accent:#34b3bf;--accent-ink:#06191c;--done:#4cc47f;--head:#0a3a42}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--head);color:#fff;padding:10px 14px 12px}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+h1{font-size:22px;margin:0;font-weight:700;letter-spacing:-.01em}
+#total{font-variant-numeric:tabular-nums;font-size:15px;opacity:.9}
+.bar{height:6px;background:rgba(255,255,255,.25);border-radius:3px;margin:8px 0 10px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:#7be0a4;transition:width .25s}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:44px;padding:0 16px;border-radius:22px;border:1.5px solid rgba(255,255,255,.5);background:transparent;color:#fff;font:inherit;font-size:16px}
+.chip[aria-pressed=true]{background:#fff;color:var(--head);border-color:#fff;font-weight:600}
+.tools{display:flex;gap:8px;padding:12px 14px 4px}
+.tools input[type=search]{flex:1;min-width:0;height:44px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font:inherit;background:var(--card);color:var(--ink)}
+.tools button{height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:15px}
+.tools button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+main{padding:8px 14px 40px;max-width:640px;margin:0 auto}
+section{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:12px 0;overflow:hidden}
+.cat{width:100%;display:flex;align-items:center;gap:10px;min-height:52px;padding:0 14px;border:0;background:none;color:var(--ink);font:inherit;font-weight:700;text-align:left}
+.cat .n{margin-left:auto;font-weight:500;color:var(--mute);font-variant-numeric:tabular-nums}
+.cat.ok .n{color:var(--done)}
+.cat .arr{transition:transform .15s;color:var(--mute)}
+section.closed .arr{transform:rotate(-90deg)}
+section.closed .its{display:none}
+.it{display:flex;align-items:center;gap:14px;min-height:48px;padding:6px 14px;border-top:1px solid var(--line);cursor:pointer}
+.it input{appearance:none;-webkit-appearance:none;flex:none;width:28px;height:28px;margin:0;border:2px solid var(--mute);border-radius:8px;display:grid;place-items:center;background:transparent}
+.it input:checked{background:var(--done);border-color:var(--done)}
+.it input:checked::after{content:"";width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.it input:checked+span{color:var(--mute);text-decoration:line-through}
+.it .t{display:inline-block;font-size:12px;padding:1px 7px;border-radius:9px;background:var(--line);color:var(--mute);margin-left:8px;vertical-align:1px}
+.it .x{margin-left:auto;border:0;background:none;color:var(--mute);font-size:24px;width:44px;height:44px}
+.sep{height:12px;background:var(--bg);border-top:1px solid var(--line)}
+.add{width:100%;min-height:48px;border:0;border-top:1px solid var(--line);background:none;color:var(--accent);font:inherit;font-size:15px;text-align:left;padding:0 14px}
+.empty{text-align:center;color:var(--mute);padding:40px 10px}
+.foot{text-align:center;margin-top:20px}
+.foot button{min-height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:#c0392b;font:inherit}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><h1>Packliste</h1><span id="total"></span></div>
+  <div class="bar"><i id="fill"></i></div>
+  <div class="chips" id="chips"></div>
+</header>
+<div class="tools">
+  <input type="search" id="q" placeholder="Suchen …" aria-label="Suchen" enterkeyhint="search">
+  <button id="hide" aria-pressed="false">Erledigte ausblenden</button>
+</div>
+<main id="list"></main>
+<script>
+"use strict";
+const KEY = "packliste-v1";
+// Schalter oben: "tanja" blendet die orangen Einträge ein/aus, die anderen schalten ganze Kategorien.
+const SWITCHES = [["tanja","Tanja"],["kinder","Kinder"],["outdoor","Outdoor / Wandern"],["ferienwohnung","Ferienwohnung"],["camping","Camping"]];
+const DEFAULTS = {tanja:true, kinder:true, outdoor:false, ferienwohnung:false, camping:false};
+
+let S = {checked:{}, profile:{}, hideDone:false, closed:{}, custom:{}, query:""};
+try { Object.assign(S, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+S.profile = Object.assign({}, DEFAULTS, S.profile);
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+let DATA;
+
+// Sichtbare Einträge einer Kategorie (nach Reiseprofil, ohne Suche/Ausblenden)
+function itemsOf(cat) {
+  const base = cat.items.filter(i => S.profile.tanja || !i.tanja);
+  const own = (S.custom[cat.id] || []).map(i => ({...i, own:true}));
+  return base.concat(own);
+}
+
+function render() {
+  // Schalter
+  $("chips").innerHTML = SWITCHES.map(([k, l]) =>
+    `<button class="chip" data-sw="${k}" aria-pressed="${!!S.profile[k]}">${l}</button>`).join("");
+  $("hide").setAttribute("aria-pressed", S.hideDone);
+
+  const q = S.query.trim().toLowerCase();
+  let total = 0, done = 0, html = "";
+  for (const cat of DATA.categories) {
+    if (cat.module && !S.profile[cat.module]) continue;
+    const all = itemsOf(cat);
+    const nDone = all.filter(i => S.checked[i.id]).length;
+    total += all.length; done += nDone;
+    let shown = all.filter(i => !q || i.name.toLowerCase().includes(q));
+    if (S.hideDone) shown = shown.filter(i => !S.checked[i.id]);
+    if (q && !shown.length) continue;
+    const closed = S.closed[cat.id] && !q;
+    html += `<section class="${closed ? "closed" : ""}"><button class="cat ${nDone === all.length && all.length ? "ok" : ""}" data-cat="${cat.id}">
+      <span class="arr">▾</span><span>${esc(cat.name)}</span><span class="n">${nDone}/${all.length}</span></button><div class="its">`;
+    let prevG = null;
+    for (const i of shown) {
+      const g = i.own ? "own" : i.g;                       // Bereiche aus den Leerzeilen der Excel
+      if (prevG !== null && g !== prevG) html += '<div class="sep"></div>';
+      prevG = g;
+      html += `<label class="it"><input type="checkbox" data-id="${i.id}" ${S.checked[i.id] ? "checked" : ""}>
+        <span>${esc(i.name)}${i.tanja ? '<em class="t" style="font-style:normal">Tanja</em>' : ""}</span>
+        ${i.own ? `<button class="x" data-del="${cat.id}|${i.id}" aria-label="Löschen">×</button>` : ""}</label>`;
+    }
+    html += `<button class="add" data-add="${cat.id}">+ Eigener Eintrag</button></div></section>`;
+  }
+  $("list").innerHTML = (html || '<p class="empty">Keine Treffer.</p>') +
+    '<div class="foot"><button data-reset>Alle Häkchen zurücksetzen</button></div>';
+  $("total").textContent = `${done} / ${total}`;
+  $("fill").style.width = (total ? done / total * 100 : 0) + "%";
+}
+
+document.addEventListener("click", e => {
+  const t = e.target;
+  const sw = t.closest("[data-sw]"), cat = t.closest("[data-cat]"), add = t.closest("[data-add]"),
+        del = t.closest("[data-del]"), reset = t.closest("[data-reset]");
+  if (sw) { S.profile[sw.dataset.sw] = !S.profile[sw.dataset.sw]; }
+  else if (cat) { S.closed[cat.dataset.cat] = !S.closed[cat.dataset.cat]; }
+  else if (add) {
+    const name = (prompt("Neuer Eintrag:") || "").trim();
+    if (!name) return;
+    const id = add.dataset.add;
+    (S.custom[id] = S.custom[id] || []).push({id: "own-" + Date.now().toString(36), name, tanja:false});
+    S.closed[id] = false;
+  } else if (del) {
+    e.preventDefault();
+    const [c, id] = del.dataset.del.split("|");
+    S.custom[c] = S.custom[c].filter(i => i.id !== id); delete S.checked[id];
+  } else if (reset) {
+    if (!confirm("Wirklich alle Häkchen zurücksetzen?")) return;
+    S.checked = {};
+  } else if (t.id === "hide") { S.hideDone = !S.hideDone; }
+  else return;
+  save(); render();
+});
+document.addEventListener("change", e => {
+  const id = e.target.dataset && e.target.dataset.id;
+  if (!id) return;
+  if (e.target.checked) S.checked[id] = true; else delete S.checked[id];
+  save(); render();
+});
+$("q").addEventListener("input", e => { S.query = e.target.value; render(); });
+
+async function start() {
+  try { DATA = window.__DATA__ || await (await fetch("data.json")).json(); }
+  catch (e) { $("list").innerHTML = '<p class="empty">data.json konnte nicht geladen werden.</p>'; return; }
+  $("q").value = S.query = "";
+  render();
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+start();
+</script>
+</body>
+</html>

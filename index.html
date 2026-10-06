@@ -83,7 +83,7 @@ section.closed .its{display:none}
   <button id="hide" aria-pressed="false">Erledigte ausblenden</button>
 </div>
 <p class="legend">1x tippen = ✓ eingepackt, 2x tippen = ✕ für diese Reise unnötig, 3x tippen = wieder offen</p>
-<div class="tools"><button id="rem" style="flex:1">⏰ Erinnerung für letzte Dinge</button></div>
+<div class="tools"><button id="rem" style="flex:1">📅 Kalendereintrag fehlende Sachen</button></div>
 <main id="list"></main>
 <div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
 <script>
@@ -191,14 +191,14 @@ function openItems() {              // alles, was noch offen ist (sichtbare Kate
 function openRem() {
   remItems = openItems();
   const d = new Date(Date.now() + 864e5), tomorrow = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-  $("sheet").innerHTML = `<h2>Erinnerung für letzte Dinge</h2>
-    <p>Wähle, was du erst am Abreisetag einpackst. Es werden nur offene Gegenstände angezeigt.</p>` +
+  $("sheet").innerHTML = `<h2>Kalendereintrag fehlende Sachen</h2>
+    <p>Wähle, was noch fehlt und erst am Abreisetag eingepackt wird. Es werden nur offene Gegenstände angezeigt.</p>` +
     (remItems.length
       ? `<button class="btn sec" data-rall style="margin:0 0 6px;min-height:44px">Alle an/aus</button>` +
         remItems.map((n, k) => `<label class="rl"><input type="checkbox" data-r="${k}" checked><span>${esc(n)}</span></label>`).join("")
       : "<p>Alles erledigt – nichts mehr offen.</p>") +
     `<div class="row"><input type="date" id="rd" value="${tomorrow}"><input type="time" id="rt" value="${(S.rem && S.rem.time) || "07:00"}"></div>
-     <button class="btn" data-ics>📅 Kalendereintrag mit Erinnerung</button>
+     <button class="btn" data-ics>📅 Kalendereintrag erstellen</button>
      <button class="btn sec" data-txt>📝 Als Text teilen (z. B. Erinnerungen)</button>
      <button class="btn sec" data-close>Schliessen</button>`;
   $("ov").classList.add("on");
@@ -211,22 +211,22 @@ async function sendIcs(date, time, names) {
   const stamp = new Date().toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
   const body = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Packliste//DE", "BEGIN:VEVENT",
     "UID:" + Date.now() + "@packliste", "DTSTAMP:" + stamp, `DTSTART:${y}${m}${d}T${hh}${mm}00`, "DURATION:PT15M",
-    "SUMMARY:" + icsEsc("Letzte Dinge einpacken"),
+    "SUMMARY:" + icsEsc("Einpacken"),
     "DESCRIPTION:" + icsEsc(names.map(n => "• " + n).join("\n")),
-    "BEGIN:VALARM", "TRIGGER:PT0M", "ACTION:DISPLAY", "DESCRIPTION:Letzte Dinge einpacken", "END:VALARM",
+    "BEGIN:VALARM", "TRIGGER:PT0M", "ACTION:DISPLAY", "DESCRIPTION:Einpacken", "END:VALARM",
     "END:VEVENT", "END:VCALENDAR"].join("\r\n");
-  const file = new File([body], "letzte-dinge.ics", {type: "text/calendar"});
+  const file = new File([body], "einpacken.ics", {type: "text/calendar"});
   try {                                         // iPhone: Teilen-Menü mit der Datei
-    if (navigator.canShare && navigator.canShare({files: [file]})) { await navigator.share({files: [file]}); return; }
+    if (navigator.canShare && navigator.canShare({files: [file]})) { await navigator.share({files: [file], title: "Einpacken"}); return; }
   } catch (err) { if (err.name === "AbortError") return; }
   const a = document.createElement("a");        // Fallback: Datei herunterladen
   a.href = URL.createObjectURL(file); a.download = file.name;
   document.body.appendChild(a); a.click(); a.remove();
 }
 async function sendText(names) {
-  const text = "Letzte Dinge einpacken:\n" + names.map(n => "• " + n).join("\n");
+  const text = "Einpacken:\n" + names.map(n => "• " + n).join("\n");
   try {
-    if (navigator.share) { await navigator.share({title: "Letzte Dinge einpacken", text}); return; }
+    if (navigator.share) { await navigator.share({title: "Einpacken", text}); return; }
     await navigator.clipboard.writeText(text); alert("Liste kopiert.");
   } catch (err) { if (err.name !== "AbortError") alert("Teilen hat nicht geklappt."); }
 }
@@ -242,7 +242,7 @@ $("ov").addEventListener("click", e => {
   const names = picked();
   if (!names.length) { alert("Bitte mindestens einen Gegenstand wählen."); return; }
   const date = $("rd").value, time = $("rt").value || "07:00";
-  S.rem = {time}; save();
+  S.rem = Object.assign(S.rem || {}, {time}); save();
   if ("txt" in D) { sendText(names); return; }
   if (!date) { alert("Bitte das Abreisedatum wählen."); return; }
   sendIcs(date, time, names);

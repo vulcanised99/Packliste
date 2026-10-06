@@ -1,6 +1,6 @@
 // Service Worker: Offline-Betrieb. Zeigt sofort die gespeicherte Version und holt im Hintergrund die neue.
 // Bei grösseren Änderungen an der App: VERSION erhöhen.
-const VERSION = "packliste-v3";
+const VERSION = "packliste-v4";
 const FILES = ["./", "index.html", "data.json", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
 
 self.addEventListener("install", e => {

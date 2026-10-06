@@ -38,6 +38,8 @@ def main(pfad):
     kategorien = []
     for cell in ws[HEADER_ROW]:
         name = (str(cell.value).strip() if cell.value else "")
+        if name and name not in KATEGORIEN:
+            print(f"WARNUNG: Spalte {cell.column_letter} '{name}' ist nicht in KATEGORIEN und wird ignoriert.")
         if name not in KATEGORIEN:
             continue
         cid, modul = KATEGORIEN[name]
@@ -57,6 +59,9 @@ def main(pfad):
             iid = basis if gesehen[basis] == 1 else f"{basis}-{gesehen[basis]}"
             items.append({"id": iid, "name": text, "tanja": hat_fuellung(c), "g": block})
         kategorien.append({"id": cid, "name": name, "module": None if modul == "core" else modul, "items": items})
+    fehlend = [n for n in KATEGORIEN if n not in {k["name"] for k in kategorien}]
+    for n in fehlend:
+        print(f"WARNUNG: Kategorie '{n}' wurde in Zeile {HEADER_ROW} der Excel nicht gefunden.")
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump({"categories": kategorien}, f, ensure_ascii=False, indent=1)
     print(f"{len(kategorien)} Kategorien, {sum(len(k['items']) for k in kategorien)} Einträge -> data.json")

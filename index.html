@@ -42,10 +42,16 @@ section{background:var(--card);border:1px solid var(--line);border-radius:14px;m
 section.closed .arr{transform:rotate(-90deg)}
 section.closed .its{display:none}
 .it{display:flex;align-items:center;gap:14px;min-height:48px;padding:6px 14px;border-top:1px solid var(--line);cursor:pointer}
-.it input{appearance:none;-webkit-appearance:none;flex:none;width:28px;height:28px;margin:0;border:2px solid var(--mute);border-radius:8px;display:grid;place-items:center;background:transparent}
-.it input:checked{background:var(--done);border-color:var(--done)}
-.it input:checked::after{content:"";width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
-.it input:checked+span{color:var(--mute);text-decoration:line-through}
+.box{flex:none;width:28px;height:28px;border:2px solid var(--mute);border-radius:8px;display:grid;place-items:center;position:relative}
+.box[data-s="1"]{background:var(--done);border-color:var(--done)}
+.box[data-s="1"]::after{content:"";width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.box[data-s="2"]{background:#e3a600;border-color:#e3a600}
+.box[data-s="2"]::before,.box[data-s="2"]::after{content:"";position:absolute;width:16px;height:3px;background:#fff;border-radius:2px;top:50%;left:50%}
+.box[data-s="2"]::before{transform:translate(-50%,-50%) rotate(45deg)}
+.box[data-s="2"]::after{transform:translate(-50%,-50%) rotate(-45deg)}
+.it[data-st="1"] .nm{color:var(--mute);text-decoration:line-through}
+.it[data-st="2"] .nm{color:var(--mute);font-style:italic;text-decoration:line-through}
+.legend{padding:2px 16px 0;font-size:13px;color:var(--mute)}
 .it .t{display:inline-block;font-size:12px;padding:1px 7px;border-radius:9px;background:var(--line);color:var(--mute);margin-left:8px;vertical-align:1px}
 .it .x{margin-left:auto;border:0;background:none;color:var(--mute);font-size:24px;width:44px;height:44px}
 .sep{height:12px;background:var(--bg);border-top:1px solid var(--line)}
@@ -65,6 +71,7 @@ section.closed .its{display:none}
   <input type="search" id="q" placeholder="Suchen …" aria-label="Suchen" enterkeyhint="search">
   <button id="hide" aria-pressed="false">Erledigte ausblenden</button>
 </div>
+<p class="legend">1x tippen = ✓ eingepackt, 2x tippen = ✕ für diese Reise unnötig, 3x tippen = wieder offen</p>
 <main id="list"></main>
 <script>
 "use strict";
@@ -113,9 +120,11 @@ function render() {
       const g = i.own ? "own" : i.g;                       // Bereiche aus den Leerzeilen der Excel
       if (prevG !== null && g !== prevG) html += '<div class="sep"></div>';
       prevG = g;
-      html += `<label class="it"><input type="checkbox" data-id="${i.id}" ${S.checked[i.id] ? "checked" : ""}>
-        <span>${esc(i.name)}${i.tanja ? '<em class="t" style="font-style:normal">Tanja</em>' : ""}</span>
-        ${i.own ? `<button class="x" data-del="${cat.id}|${i.id}" aria-label="Löschen">×</button>` : ""}</label>`;
+      const v = S.checked[i.id], st = v === true ? 1 : v === "skip" ? 2 : 0;   // 0 offen, 1 eingepackt, 2 unnötig
+      html += `<div class="it" data-id="${i.id}" data-st="${st}" role="checkbox" aria-checked="${st === 1 ? "true" : st === 2 ? "mixed" : "false"}">
+        <span class="box" data-s="${st}"></span>
+        <span class="nm">${esc(i.name)}${i.tanja ? '<em class="t" style="font-style:normal">Tanja</em>' : ""}</span>
+        ${i.own ? `<button class="x" data-del="${cat.id}|${i.id}" aria-label="Löschen">×</button>` : ""}</div>`;
     }
     html += `<button class="add" data-add="${cat.id}">+ Eigener Eintrag</button></div></section>`;
   }
@@ -128,7 +137,7 @@ function render() {
 document.addEventListener("click", e => {
   const t = e.target;
   const sw = t.closest("[data-sw]"), cat = t.closest("[data-cat]"), add = t.closest("[data-add]"),
-        del = t.closest("[data-del]"), reset = t.closest("[data-reset]");
+        del = t.closest("[data-del]"), it = t.closest("[data-id]"), reset = t.closest("[data-reset]");
   if (sw) { S.profile[sw.dataset.sw] = !S.profile[sw.dataset.sw]; }
   else if (cat) { S.closed[cat.dataset.cat] = !S.closed[cat.dataset.cat]; }
   else if (add) {
@@ -141,17 +150,15 @@ document.addEventListener("click", e => {
     e.preventDefault();
     const [c, id] = del.dataset.del.split("|");
     S.custom[c] = S.custom[c].filter(i => i.id !== id); delete S.checked[id];
+  } else if (it) {
+    // Tippen wechselt: offen -> eingepackt -> unnötig -> offen
+    const id = it.dataset.id, v = S.checked[id];
+    if (!v) S.checked[id] = true; else if (v === true) S.checked[id] = "skip"; else delete S.checked[id];
   } else if (reset) {
     if (!confirm("Wirklich alle Häkchen zurücksetzen?")) return;
     S.checked = {};
   } else if (t.id === "hide") { S.hideDone = !S.hideDone; }
   else return;
-  save(); render();
-});
-document.addEventListener("change", e => {
-  const id = e.target.dataset && e.target.dataset.id;
-  if (!id) return;
-  if (e.target.checked) S.checked[id] = true; else delete S.checked[id];
   save(); render();
 });
 $("q").addEventListener("input", e => { S.query = e.target.value; render(); });

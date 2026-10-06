@@ -1,6 +1,6 @@
 // Service Worker: Offline-Betrieb. Zeigt sofort die gespeicherte Version und holt im Hintergrund die neue.
 // Bei grösseren Änderungen an der App: VERSION erhöhen.
-const VERSION = "packliste-v5";
+const VERSION = "packliste-v9";
 const FILES = ["./", "index.html", "data.json", "manifest.webmanifest", "app-icon-192.png", "app-icon-512.png", "app-icon-180.png"];
 
 self.addEventListener("install", e => {

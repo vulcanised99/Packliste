@@ -55,6 +55,17 @@ section.closed .its{display:none}
 .it .t{display:inline-block;font-size:12px;padding:1px 7px;border-radius:9px;background:var(--line);color:var(--mute);margin-left:8px;vertical-align:1px}
 .it .x{margin-left:auto;border:0;background:none;color:var(--mute);font-size:24px;width:44px;height:44px}
 .sep{height:12px;background:var(--bg);border-top:1px solid var(--line)}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.sheet{background:var(--card);color:var(--ink);width:100%;max-width:640px;max-height:90%;overflow:auto;border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.sheet h2{margin:0 0 4px;font-size:20px}
+.sheet p{margin:0 0 10px;color:var(--mute);font-size:14px}
+.rl{display:flex;align-items:center;gap:12px;min-height:44px;border-top:1px solid var(--line)}
+.rl input{width:22px;height:22px;flex:none}
+.row{display:flex;gap:10px;margin:14px 0 4px}
+.row input{flex:1;min-width:0;height:44px;border:1px solid var(--line);border-radius:12px;padding:0 10px;font:inherit;background:var(--bg);color:var(--ink)}
+.btn{display:block;width:100%;min-height:48px;margin-top:8px;border-radius:12px;border:0;font:inherit;font-weight:600;background:var(--accent);color:var(--accent-ink)}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:400}
 .add{width:100%;min-height:48px;border:0;border-top:1px solid var(--line);background:none;color:var(--accent);font:inherit;font-size:15px;text-align:left;padding:0 14px}
 .empty{text-align:center;color:var(--mute);padding:40px 10px}
 .foot{text-align:center;margin-top:20px}
@@ -72,7 +83,9 @@ section.closed .its{display:none}
   <button id="hide" aria-pressed="false">Erledigte ausblenden</button>
 </div>
 <p class="legend">1x tippen = ✓ eingepackt, 2x tippen = ✕ für diese Reise unnötig, 3x tippen = wieder offen</p>
+<div class="tools"><button id="rem" style="flex:1">⏰ Erinnerung für letzte Dinge</button></div>
 <main id="list"></main>
+<div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
 <script>
 "use strict";
 const KEY = "packliste-v1";
@@ -162,6 +175,78 @@ document.addEventListener("click", e => {
   save(); render();
 });
 $("q").addEventListener("input", e => { S.query = e.target.value; render(); });
+
+
+// ---------- Erinnerung für die letzten Dinge ----------
+const pad = n => String(n).padStart(2, "0");
+let remItems = [];
+function openItems() {              // alles, was noch offen ist (sichtbare Kategorien)
+  const out = [];
+  for (const cat of DATA.categories) {
+    if (cat.module && !S.profile[cat.module]) continue;
+    for (const i of itemsOf(cat)) if (!S.checked[i.id]) out.push(i.name);
+  }
+  return out;
+}
+function openRem() {
+  remItems = openItems();
+  const d = new Date(Date.now() + 864e5), tomorrow = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  $("sheet").innerHTML = `<h2>Erinnerung für letzte Dinge</h2>
+    <p>Wähle, was du erst am Abreisetag einpackst. Es werden nur offene Gegenstände angezeigt.</p>` +
+    (remItems.length
+      ? `<button class="btn sec" data-rall style="margin:0 0 6px;min-height:44px">Alle an/aus</button>` +
+        remItems.map((n, k) => `<label class="rl"><input type="checkbox" data-r="${k}" checked><span>${esc(n)}</span></label>`).join("")
+      : "<p>Alles erledigt – nichts mehr offen.</p>") +
+    `<div class="row"><input type="date" id="rd" value="${tomorrow}"><input type="time" id="rt" value="${(S.rem && S.rem.time) || "07:00"}"></div>
+     <button class="btn" data-ics>📅 Kalendereintrag mit Erinnerung</button>
+     <button class="btn sec" data-txt>📝 Als Text teilen (z. B. Erinnerungen)</button>
+     <button class="btn sec" data-close>Schliessen</button>`;
+  $("ov").classList.add("on");
+}
+const picked = () => [...$("sheet").querySelectorAll("input[data-r]:checked")].map(x => remItems[x.dataset.r]);
+const icsEsc = s => s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+
+async function sendIcs(date, time, names) {
+  const [y, m, d] = date.split("-"), [hh, mm] = time.split(":");
+  const stamp = new Date().toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
+  const body = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Packliste//DE", "BEGIN:VEVENT",
+    "UID:" + Date.now() + "@packliste", "DTSTAMP:" + stamp, `DTSTART:${y}${m}${d}T${hh}${mm}00`, "DURATION:PT15M",
+    "SUMMARY:" + icsEsc("Letzte Dinge einpacken"),
+    "DESCRIPTION:" + icsEsc(names.map(n => "• " + n).join("\n")),
+    "BEGIN:VALARM", "TRIGGER:PT0M", "ACTION:DISPLAY", "DESCRIPTION:Letzte Dinge einpacken", "END:VALARM",
+    "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+  const file = new File([body], "letzte-dinge.ics", {type: "text/calendar"});
+  try {                                         // iPhone: Teilen-Menü mit der Datei
+    if (navigator.canShare && navigator.canShare({files: [file]})) { await navigator.share({files: [file]}); return; }
+  } catch (err) { if (err.name === "AbortError") return; }
+  const a = document.createElement("a");        // Fallback: Datei herunterladen
+  a.href = URL.createObjectURL(file); a.download = file.name;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+async function sendText(names) {
+  const text = "Letzte Dinge einpacken:\n" + names.map(n => "• " + n).join("\n");
+  try {
+    if (navigator.share) { await navigator.share({title: "Letzte Dinge einpacken", text}); return; }
+    await navigator.clipboard.writeText(text); alert("Liste kopiert.");
+  } catch (err) { if (err.name !== "AbortError") alert("Teilen hat nicht geklappt."); }
+}
+$("rem").addEventListener("click", openRem);
+$("ov").addEventListener("click", e => {
+  const t = e.target, D = t.dataset || {};
+  if (t.id === "ov" || "close" in D) { $("ov").classList.remove("on"); return; }
+  if ("rall" in D) {
+    const boxes = [...$("sheet").querySelectorAll("input[data-r]")], all = boxes.every(b => b.checked);
+    boxes.forEach(b => b.checked = !all); return;
+  }
+  if (!("ics" in D) && !("txt" in D)) return;
+  const names = picked();
+  if (!names.length) { alert("Bitte mindestens einen Gegenstand wählen."); return; }
+  const date = $("rd").value, time = $("rt").value || "07:00";
+  S.rem = {time}; save();
+  if ("txt" in D) { sendText(names); return; }
+  if (!date) { alert("Bitte das Abreisedatum wählen."); return; }
+  sendIcs(date, time, names);
+});
 
 async function start() {
   try { DATA = window.__DATA__ || await (await fetch("data.json")).json(); }
